@@ -83,12 +83,7 @@ consul_ui: "{{ lookup('env', 'CONSUL_UI') | default(true, true) }}"
 consul_disable_update_check: false
 consul_enable_script_checks: false
 consul_enable_local_script_checks: false
-consul_raft_protocol: "\
-  {% if consul_version is version_compare('0.7.0', '<=') %}\
-    1\
-  {% else %}\
-    3\
-  {% endif %}"
+consul_raft_protocol: 3
 consul_retry_join_skip_hosts: false
 consul_retry_interval: "30s"
 consul_retry_interval_wan: "30s"

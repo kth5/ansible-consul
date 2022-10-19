@@ -7,7 +7,7 @@ is_virtualenv: "{{ lookup('env','VIRTUAL_ENV') | default('', true) }}"
 consul_install_dependencies: true
 
 ### Package
-consul_version: "{{ lookup('env','CONSUL_VERSION') | default('1.8.7', true) }}"
+consul_version: "{{ lookup('env','CONSUL_VERSION') | default('1.13.2', true) }}"
 consul_architecture_map:
   # this first entry seems redundant
   # (but it's required for reasons)
@@ -90,12 +90,7 @@ consul_ui_legacy: "{{ lookup('env', 'CONSUL_UI_LEGACY') | default(false, false) 
 consul_disable_update_check: false
 consul_enable_script_checks: false
 consul_enable_local_script_checks: false
-consul_raft_protocol: "\
-  {% if consul_version is version_compare('0.7.0', '<=') %}\
-    1\
-  {% else %}\
-    3\
-  {% endif %}"
+consul_raft_protocol: 3
 consul_retry_join_skip_hosts: false
 consul_retry_interval: "30s"
 consul_retry_interval_wan: "30s"
