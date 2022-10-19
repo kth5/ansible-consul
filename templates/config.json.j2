@@ -121,7 +121,6 @@
         {% endif %}
     },
     {% endif %}
-    {% endif %}
 
     {## LAN Join ##}
     "retry_interval": "{{ consul_retry_interval }}",
@@ -171,70 +170,68 @@
     {# Server Settings #}
     {% if (config_item.config_version == 'server') or (config_item.config_version == 'bootstrap') %}
 
-    {## Bootstrap settings ##}
-    "bootstrap": {{ (config_item.config_version == 'bootstrap') | bool | to_json }},
-    {% if consul_bootstrap_expect and not (config_item.config_version == 'bootstrap') %}
-        "bootstrap_expect": {{ consul_bootstrap_expect_value }},
+        {## Bootstrap settings ##}
+        "bootstrap": {{ (config_item.config_version == 'bootstrap') | bool | to_json }},
+        {% if consul_bootstrap_expect and not (config_item.config_version == 'bootstrap') %}
+            "bootstrap_expect": {{ consul_bootstrap_expect_value }},
 
-        {## AutoPilot ##}
-        {% if consul_autopilot_enable | bool %}
-        "autopilot": {
-            "cleanup_dead_servers": {{ consul_autopilot_cleanup_dead_servers | bool | to_json }},
-            "last_contact_threshold": "{{ consul_autopilot_last_contact_threshold }}",
-            "max_trailing_logs": {{ consul_autopilot_max_trailing_logs }},
-            "server_stabilization_time": "{{ consul_autopilot_server_stabilization_time }}"{{ ',' if consul_enterprise else '' }}
-            {% if consul_enterprise %}
-            "redundancy_zone_tag":  "{{ consul_autopilot_redundancy_zone_tag }}",
-            "disable_upgrade_migration": {{ consul_autopilot_disable_upgrade_migration | bool | to_json }},
-            "upgrade_version_tag": "{{ consul_autopilot_upgrade_version_tag }}"
+            {## AutoPilot ##}
+            {% if consul_autopilot_enable | bool %}
+            "autopilot": {
+                "cleanup_dead_servers": {{ consul_autopilot_cleanup_dead_servers | bool | to_json }},
+                "last_contact_threshold": "{{ consul_autopilot_last_contact_threshold }}",
+                "max_trailing_logs": {{ consul_autopilot_max_trailing_logs }},
+                "server_stabilization_time": "{{ consul_autopilot_server_stabilization_time }}"{{ ',' if consul_enterprise else '' }}
+                {% if consul_enterprise %}
+                "redundancy_zone_tag":  "{{ consul_autopilot_redundancy_zone_tag }}",
+                "disable_upgrade_migration": {{ consul_autopilot_disable_upgrade_migration | bool | to_json }},
+                "upgrade_version_tag": "{{ consul_autopilot_upgrade_version_tag }}"
+                {% endif %}
+            },
             {% endif %}
-        },
         {% endif %}
 
-    {% endif %}
+        {## WAN Join ##}
+        "retry_interval_wan": "{{ consul_retry_interval_wan }}",
+        "retry_max_wan": {{ consul_retry_max_wan | int }},
 
-    {## WAN Join ##}
-    "retry_interval_wan": "{{ consul_retry_interval_wan }}",
-    "retry_max_wan": {{ consul_retry_max_wan | int }},
-
-    {% if _consul_wan_servercount | int > 0 %}
-    "retry_join_wan":
-    {% for server in _consul_wan_servers %}
-    {%   set _ = consul_join_wan.append(hostvars[server]['consul_advertise_address_wan'] | default(hostvars[server]['consul_bind_address'])) %}
-    {% endfor %}
-    {{ consul_join_wan | map('ansible.utils.ipwrap') | list | to_json }},
-    {% endif %}
-
-    {## ACLs ##}
-    {% if consul_acl_enable | bool %}
-        {% if consul_acl_replication_enable | trim != '' %}
-        "enable_acl_replication": {{ consul_acl_replication_enable | bool | to_json }},
+        {% if _consul_wan_servercount | int > 0 %}
+        "retry_join_wan":
+        {% for server in _consul_wan_servers %}
+        {%   set _ = consul_join_wan.append(hostvars[server]['consul_advertise_address_wan'] | default(hostvars[server]['consul_bind_address'])) %}
+        {% endfor %}
+        {{ consul_join_wan | map('ansible.utils.ipwrap') | list | to_json }},
         {% endif %}
-        "primary_datacenter": "{{ consul_acl_datacenter }}",
-        "acl": {
-            "enabled": true,
-            "default_policy": "{{ consul_acl_default_policy }}",
-            "down_policy": "{{ consul_acl_down_policy }}",
-            "token_ttl": "{{ consul_acl_ttl }}",
-            "enable_token_persistence": {{ consul_acl_token_persistence | bool | to_json}},
-            "tokens": {
-               {% if consul_acl_token | trim != '' %}
-               "default": "{{ consul_acl_token }}",
-               {% endif %}
-               {% if consul_acl_agent_token | trim != '' %}
-               "agent": "{{ consul_acl_agent_token }}",
-               {% endif %}
-               {% if consul_acl_agent_master_token | trim != '' %}
-               "agent_recovery": "{{ consul_acl_agent_master_token }}",
-               {% endif %}
-               "initial_management": "{{ consul_acl_master_token }}",
-               {% endif %}
-               {% if consul_acl_replication_token | trim != '' %}
-               "replication": "{{ consul_acl_replication_token }}",
-               {% endif %}
-           }
-        },
-    {% endif %}
+
+        {## ACLs ##}
+        {% if consul_acl_enable | bool %}
+            {% if consul_acl_replication_enable | trim != '' %}
+            "enable_acl_replication": {{ consul_acl_replication_enable | bool | to_json }},
+            {% endif %}
+            "primary_datacenter": "{{ consul_acl_datacenter }}",
+            "acl": {
+                "enabled": true,
+                "default_policy": "{{ consul_acl_default_policy }}",
+                "down_policy": "{{ consul_acl_down_policy }}",
+                "token_ttl": "{{ consul_acl_ttl }}",
+                "enable_token_persistence": {{ consul_acl_token_persistence | bool | to_json}},
+                "tokens": {
+                {% if consul_acl_token | trim != '' %}
+                "default": "{{ consul_acl_token }}",
+                {% endif %}
+                {% if consul_acl_agent_token | trim != '' %}
+                "agent": "{{ consul_acl_agent_token }}",
+                {% endif %}
+                {% if consul_acl_agent_master_token | trim != '' %}
+                "agent_recovery": "{{ consul_acl_agent_master_token }}",
+                {% endif %}
+                "initial_management": "{{ consul_acl_master_token }}",
+                {% if consul_acl_replication_token | trim != '' %}
+                "replication": "{{ consul_acl_replication_token }}",
+                {% endif %}
+            }
+            },
+        {% endif %}
     {% endif %}
 
     {## Limits ##}
