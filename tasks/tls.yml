@@ -47,3 +47,4 @@
         group: "{{ consul_group }}"
         mode: 0600
       notify: restart consul
+      no_log: True
