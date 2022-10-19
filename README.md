@@ -44,11 +44,11 @@ This role requires a FreeBSD, Debian, or Red Hat Enterprise Linux distribution o
 
 The role might work with other OS distributions and versions, but is known to function well with the following software versions:
 
-* Consul: 1.8.7
-* Ansible: 2.8.2
+* Consul: 1.13.2
+* Ansible: 2.11.11
 * Alpine Linux: 3.8
 * CentOS: 7, 8
-* Debian: 9
+* Debian: 9, 10, 11
 * FreeBSD: 11
 * Mac OS X: 10.15 (Catalina)
 * RHEL: 7, 8
@@ -91,7 +91,7 @@ Many role variables can also take their values from environment variables as wel
 
 - Version to install
 - Set value as `latest` for the latest available version of consul
-- Default value: 1.8.7
+- Default value: 1.13.2
 
 ### `consul_architecture_map`
 
