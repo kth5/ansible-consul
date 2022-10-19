@@ -2,33 +2,32 @@
 # File: dirs.yml - Consul directories
 
 - name: Create directories
-  block:
-  - name: Configuration and data directories
-    file:
-      dest: "{{ dir_item }}"
-      state: directory
-      owner: "{{ consul_user }}"
-      group: "{{ consul_group }}"
-      mode: 0700
-    with_items:
-      - "{{ consul_config_path }}"
-      - "{{ consul_configd_path }}"
-      - "{{ consul_data_path }}"
-    loop_control:
-      loop_var: dir_item
-  - name: Run directory
-    file:
-      dest: "{{ consul_run_path }}"
-      state: directory
-      owner: "{{ consul_user }}"
-      group: "{{ consul_group }}"
-      mode: 0750
-    when: not consul_install_from_repo | bool
-
   when: ansible_os_family != 'Windows'
+  block:
+    - name: Configuration and data directories
+      ansible.builtin.file:
+        dest: "{{ dir_item }}"
+        state: directory
+        owner: "{{ consul_user }}"
+        group: "{{ consul_group }}"
+        mode: 0700
+      with_items:
+        - "{{ consul_config_path }}"
+        - "{{ consul_configd_path }}"
+        - "{{ consul_data_path }}"
+      loop_control:
+        loop_var: dir_item
+    - name: Run directory
+      ansible.builtin.file:
+        dest: "{{ consul_run_path }}"
+        state: directory
+        owner: "{{ consul_user }}"
+        group: "{{ consul_group }}"
+        mode: 0750
+      when: not consul_install_from_repo | bool
 
 - name: Create log directory
-  file:
+  ansible.builtin.file:
     dest: "{{ consul_log_path }}"
     state: directory
     owner: "{{ consul_user }}"
@@ -40,7 +39,7 @@
     - not consul_configure_syslogd | bool
 
 - name: Create log directory
-  file:
+  ansible.builtin.file:
     dest: "{{ log_item }}"
     state: directory
     owner: "{{ syslog_user }}"
@@ -56,7 +55,7 @@
     - consul_configure_syslogd | bool
 
 - name: Verify binary path
-  file:
+  ansible.builtin.file:
     path: "{{ consul_bin_path }}"
     state: directory
     owner: root
@@ -71,7 +70,7 @@
     - not consul_install_from_repo | bool
 
 - name: Create directories on Windows
-  win_file:
+  ansible.windows.win_file:
     dest: "{{ dir_item }}"
     state: directory
   with_items:
