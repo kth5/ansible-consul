@@ -565,21 +565,21 @@ Notice that the dict object has to use precisely the names stated in the documen
 
 ### `consul_tls_ca_crt`
 
-- CA certificate filename
+- CA certificate as string
   - Override with `CONSUL_TLS_CA_CRT` environment variable
-- Default value: `ca.crt`
+- Default value: ''
 
 ### `consul_tls_server_crt`
 
-- Server certificate
+- Server certificate as string
   - Override with `CONSUL_TLS_SERVER_CRT` environment variable
-- Default value: `server.crt`
+- Default value: ''
 
 ### `consul_tls_server_key`
 
-- Server key
+- Server key as string
   - Override with `CONSUL_TLS_SERVER_KEY` environment variable
-- Default value: `server.key`
+- Default value: ''
 
 ### `consul_tls_files_remote_src`
 
