@@ -42,7 +42,7 @@
 - name: Reload systemd
   ansible.builtin.systemd:
     daemon_reload: true
-  when: systemd_unit | changed
+  when: systemd_unit is changed
 
 - name: Create snaps storage folder
   ansible.builtin.file:
