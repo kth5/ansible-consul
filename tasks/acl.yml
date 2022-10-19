@@ -37,7 +37,7 @@
   block:
     - name: Generate ACL master token  # noqa no-changed-when
       ansible.builtin.command:
-        cmd: "echo {{ lookup('password', '/dev/null length=32 chars=ascii_letters') | to_uuid }}"
+        cmd: "{{ consul_bin_path }}/consul keygen"
       register: consul_acl_master_token_keygen
       run_once: true
       no_log: true
