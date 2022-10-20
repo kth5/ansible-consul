@@ -40,7 +40,7 @@ SCRIPT
 
 ANSIBLE_PLAYBOOK = ENV['ANSIBLE_PLAYBOOK'] || "site.yml"
 BOX_MEM = ENV['BOX_MEM'] || "1024"
-BOX_NAME =  ENV['BOX_NAME'] || "debian/stretch64"
+BOX_NAME =  ENV['BOX_NAME'] || "debian/bullseye64"
 CLUSTER_HOSTS = ENV['CLUSTER_HOSTS'] || "vagrant_hosts"
 CONSUL_ACL_ENABLE = ENV['CONSUL_ACL_ENABLE'] || "false"
 CONSUL_ATLAS_ENABLE = ENV['CONSUL_ATLAS_ENABLE'] || "false"
@@ -67,7 +67,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     consul1_config.vm.base_mac = "080027D17374"
     consul1_config.vm.synced_folder ".", "/vagrant", disabled: true
     consul1_config.ssh.shell = "/bin/sh"
-    consul1_config.vm.network :private_network, ip: "10.1.42.210"
+    consul1_config.vm.network :private_network, ip: "192.168.56.210"
     consul1_config.vm.hostname = "consul1.consul"
     consul1_config.ssh.forward_agent = true
     consul1_config.vm.provider "virtualbox" do |v|
@@ -81,9 +81,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     end
     consul1_config.vm.provision :hosts do |provisioner|
         provisioner.sync_hosts = false
-        provisioner.add_host '10.1.42.210', ['consul1.consul']
-        provisioner.add_host '10.1.42.220', ['consul2.consul']
-        provisioner.add_host '10.1.42.230', ['consul3.consul']
+        provisioner.add_host '192.168.56.210', ['consul1.consul']
+        provisioner.add_host '192.168.56.220', ['consul2.consul']
+        provisioner.add_host '192.168.56.230', ['consul3.consul']
     end
     consul1_config.vm.provision "shell", inline: $script
   end
@@ -93,7 +93,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     consul2_config.vm.base_mac = "080027D27374"
     consul2_config.vm.synced_folder ".", "/vagrant", disabled: true
     consul2_config.ssh.shell = "/bin/sh"
-    consul2_config.vm.network :private_network, ip: "10.1.42.220"
+    consul2_config.vm.network :private_network, ip: "192.168.56.220"
     consul2_config.vm.hostname = "consul2.consul"
     consul2_config.ssh.forward_agent = true
     consul2_config.vm.provider "virtualbox" do |v|
@@ -107,9 +107,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     end
     consul2_config.vm.provision :hosts do |provisioner|
         provisioner.sync_hosts = false
-        provisioner.add_host '10.1.42.210', ['consul1.consul']
-        provisioner.add_host '10.1.42.220', ['consul2.consul']
-        provisioner.add_host '10.1.42.230', ['consul3.consul']
+        provisioner.add_host '192.168.56.210', ['consul1.consul']
+        provisioner.add_host '192.168.56.220', ['consul2.consul']
+        provisioner.add_host '192.168.56.230', ['consul3.consul']
     end
     consul2_config.vm.provision "shell", inline: $script
   end
@@ -119,7 +119,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     consul3_config.vm.base_mac = "080027D37374"
     consul3_config.vm.synced_folder ".", "/vagrant", disabled: true
     consul3_config.ssh.shell = "/bin/sh"
-    consul3_config.vm.network :private_network, ip: "10.1.42.230"
+    consul3_config.vm.network :private_network, ip: "192.168.56.230"
     consul3_config.vm.hostname = "consul3.consul"
     consul3_config.ssh.forward_agent = true
     consul3_config.vm.provider "virtualbox" do |v|
@@ -133,9 +133,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     end
     consul3_config.vm.provision :hosts do |provisioner|
         provisioner.sync_hosts = false
-        provisioner.add_host '10.1.42.210', ['consul1.consul']
-        provisioner.add_host '10.1.42.220', ['consul2.consul']
-        provisioner.add_host '10.1.42.230', ['consul3.consul']
+        provisioner.add_host '192.168.56.210', ['consul1.consul']
+        provisioner.add_host '192.168.56.220', ['consul2.consul']
+        provisioner.add_host '192.168.56.230', ['consul3.consul']
     end
     consul3_config.vm.provision "shell", inline: $script
     consul3_config.vm.provision :ansible do |ansible|

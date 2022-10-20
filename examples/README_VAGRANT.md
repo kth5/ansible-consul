@@ -90,12 +90,12 @@ BOX_NAME=freebsd/FreeBSD-11.0-STABLE CONSUL_IFACE=em1 vagrant up
 ## Notes
 
 1. This project functions with the following software versions:
-  * Consul version 1.8.7
-  * Ansible: 2.8.2
-  * VirtualBox version 5.2.22
-  * Vagrant version 2.2.1
-  * Vagrant Hosts plugin version 2.8.1
-2. This project uses Debian 9 (Stretch) by default, but you can choose another OS distribution with the *BOX_NAME* environment variable
+  * Consul version 1.13.2
+  * Ansible: >=2.8.2
+  * VirtualBox version 7.0.0
+  * Vagrant version 2.3.2
+  * Vagrant Hosts plugin version 2.9.0
+2. This project uses Debian 11 (Bullseye) by default, but you can choose another OS distribution with the *BOX_NAME* environment variable
 3. The `bin/preinstall` shell script performs the following actions for you:
  * Adds each node's host information to the host machine's `/etc/hosts`
  * Optionally installs the Vagrant hosts plugin
