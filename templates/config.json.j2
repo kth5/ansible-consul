@@ -57,6 +57,7 @@
     "log_rotate_bytes": {{ consul_log_rotate_bytes }},
     "log_rotate_duration": "{{ consul_log_rotate_duration }}",
     "log_rotate_max_files": {{ consul_log_rotate_max_files }},
+    "log_json": {{ consul_log_json }},
     {% endif %}
     "disable_update_check": {{ consul_disable_update_check | bool | to_json }},
     "enable_script_checks": {{ consul_enable_script_checks | bool | to_json }},
@@ -206,11 +207,11 @@
         {## ACLs ##}
         {% if consul_acl_enable | bool %}
             {% if consul_acl_replication_enable | trim != '' %}
-            "enable_acl_replication": {{ consul_acl_replication_enable | bool | to_json }},
             {% endif %}
             "primary_datacenter": "{{ consul_acl_datacenter }}",
             "acl": {
                 "enabled": true,
+                "enable_token_replication": {{ consul_acl_replication_enable | bool | to_json }},
                 "default_policy": "{{ consul_acl_default_policy }}",
                 "down_policy": "{{ consul_acl_down_policy }}",
                 "token_ttl": "{{ consul_acl_ttl }}",
