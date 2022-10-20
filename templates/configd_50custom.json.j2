@@ -1,3 +1,4 @@
+{{ ansible_managed | comment }}
 {# consul_config_custom variables are free-style, passed through a hash -#}
 {% if consul_config_custom -%}
 {{ consul_config_custom | to_nice_json }}

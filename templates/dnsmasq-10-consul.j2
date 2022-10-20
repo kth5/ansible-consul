@@ -1,3 +1,4 @@
+{{ ansible_managed | comment }}
 {# Enable forward lookups for the consul domain with conditional delegation -#}
 {% if consul_delegate_datacenter_dns | bool -%}
 server=/{{ consul_datacenter }}.{{ consul_domain }}/{{ consul_dnsmasq_consul_address }}#{{ consul_ports.dns }}
